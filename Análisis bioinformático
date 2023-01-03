@@ -1,0 +1,166 @@
+# Ingreso al servidor: ssh monica@192.168.0.3
+# Luego ingreso al directorio de Bioinformatica: cd Bioinformatica/
+# Listo lo que hay en el directorio de Bioinformatica : ~/Bioinformatica$ ls
+Resultado: Secuencias.fastq  Secuencias_fastqc.html  Secuencias_fastqc.zip
+
+# Requiero contar las secuencias que tiene el archivo uso este comando: grep -c "@" Secuencias.fastq
+# resultado: 30069 “cantidad de secuencias”
+
+Para ejecutar el programa FASTQC realizo:
+ #Ingreso al directorio donde tengo mis secuencias guardadas.
+cd Bioinformatica/
+# ejecuto el comando para ingresar al programa ~software/FastQC/fastqc
+# ingreso el comando para análisis de las secuencias por el programa : fastqc Secuencias.fastq
+
+Me arroja el siguiente resultado
+
+Started analysis of Secuencias.fastq
+Approx 5% complete for Secuencias.fastq
+Approx 10% complete for Secuencias.fastq
+Approx 15% complete for Secuencias.fastq
+Approx 20% complete for Secuencias.fastq
+Approx 25% complete for Secuencias.fastq
+Approx 30% complete for Secuencias.fastq
+Approx 35% complete for Secuencias.fastq
+Approx 40% complete for Secuencias.fastq
+Approx 45% complete for Secuencias.fastq
+Approx 55% complete for Secuencias.fastq
+Approx 60% complete for Secuencias.fastq
+Approx 65% complete for Secuencias.fastq
+Approx 70% complete for Secuencias.fastq
+Approx 75% complete for Secuencias.fastq
+Approx 80% complete for Secuencias.fastq
+Approx 85% complete for Secuencias.fastq
+Approx 90% complete for Secuencias.fastq
+Approx 95% complete for Secuencias.fastq
+Analysis complete for Secuencias.fastq
+
+#Listo lo que hay para saber que me arrojo el resultado en un formato html con el siguiente comando:  ls y me arroja estos resultados y guardo el archivo:
+Secuencias.fastq  Secuencias_fastqc.html  Secuencias_fastqc.zip
+
+Para ejecutar el programa FASTQC realizo:
+ #Ingreso al directorio donde tengo mis secuencias guardadas.
+cd pre-procesamiento/
+# ejecuto el comando para ingresar al programa ~software/FastQC/fastqc
+# ingreso el comando para análisis de las secuencias por el programa fastqc 16-19B_R2_fastq.gz 16-42A_R1_fastq.gz 16-42A_R2_fastq.gz
+
+# Listo lo que hay en el directorio: ~/pre-procesamiento$ ls
+16-19B_R1_fastq.gz           16-42A_R1_fastq.gz
+16-19B_R1_fastq_fastqc.html  16-42A_R1_fastq_fastqc.html
+16-19B_R1_fastq_fastqc.zip   16-42A_R1_fastq_fastqc.zip
+16-19B_R2_fastq.gz           16-42A_R2_fastq.gz
+16-19B_R2_fastq_fastqc.html  16-42A_R2_fastq_fastqc.html
+16-19B_R2_fastq_fastqc.zip   16-42A_R2_fastq_fastqc.zip
+
+LIMPIEZA DE SECUENCIAS EN TRIMMOMATIC
+# Luego ingreso al directorio de pre-procesamiento: cd pre-procesamiento
+#Listo lo que hay en el directorio de  pre-procesamiento: ls 
+16-19B_R1_PE2_fastq.gz           16-19B_R2_PE3_fastq_fastqc.html
+16-19B_R1_PE2_fastq_fastqc.html  16-19B_R2_PE3_fastq_fastqc.zip
+16-19B_R1_PE2_fastq_fastqc.zip   16-19B_R2_PE_fastq.gz
+16-19B_R1_PE3_fastq.gz           16-19B_R2_PE_fastq_fastqc.html
+16-19B_R1_PE3_fastq_fastqc.html  16-19B_R2_PE_fastq_fastqc.zip
+16-19B_R1_PE3_fastq_fastqc.zip   16-19B_R2_UPE2_fastq.gz
+16-19B_R1_PE_UPE_fastq.gz        16-19B_R2_UPE3_fastq.gz
+16-19B_R1_PE_fastq.gz            16-19B_R2_UPE_fastq.gz
+16-19B_R1_PE_fastq_fastqc.html   16-19B_R2_fastq.gz
+16-19B_R1_PE_fastq_fastqc.zip    16-19B_R2_fastq_fastqc.html
+16-19B_R1_UPE2_fastq.gz          16-19B_R2_fastq_fastqc.zip
+16-19B_R1_UPE3_fastq.gz          16-42A_R1_fastq.gz
+16-19B_R1_fastq.gz               16-42A_R1_fastq_fastqc.html
+16-19B_R1_fastq_fastqc.html      16-42A_R1_fastq_fastqc.zip
+16-19B_R1_fastq_fastqc.zip       16-42A_R2_fastq.gz
+16-19B_R2_PE2_fastq.gz           16-42A_R2_fastq_fastqc.html
+16-19B_R2_PE2_fastq_fastqc.html  16-42A_R2_fastq_fastqc.zip
+16-19B_R2_PE2_fastq_fastqc.zip   history
+16-19B_R2_PE3_fastq.gz
+  comando de limpieza
+trimmomatic PE -phred33 -threads 12 16-19B_R1_fastq.gz 16-19B_R2_fastq.gz 16-19B_R1_PE_fastq.gz 16-19B_R1_PE_UPE_fastq.gz 16-19B_R2_PE_fastq.gz 16-19B_R2_UPE_fastq.gz ILLUMINACLIP:/usr/local/bin/Trimmomatic/adapters/TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:7:15 HEADCROP:14 
+
+MAPEO POR ALIGNEAMIENTO
+
+1. DESCARGAR EL GENOMA DE REFERENCIA: lo realizo por NCBI y lo descargo dando click derecho en el genoma y con wget y la dirección lo descargo en formato fasta
+2. CONSTRUIR UN INDEXE DEL GENOMA DE REFERENCIA ~software/bowtie2-2.4.1-linux-x86_64/bowtie2-build GCF_000195955.2_ASM19595v2_genomic.fna.gz H37Rv.index 
+3. OBSERVO CON tree el arbol que me sale lo que he creado
+4. EJECUTO EL PROGRAMA bowtie2 ~software/bowtie2-2.4.1-linux-x86_64/bowtie2 -x (va el nombre de mi genoma indexado luego -1  va la ruta de mis mutantes ya procesados el R1 luego -2 va la ruta de mis mutantes ya procesados el R2 luego va -S (que me escribe en que formato va a quedar la alineación que es formato SAM)  1050_alignment.sam -p 12 (p -12este me dice en cuantos hilos va a trabajar)
+~software/bowtie2-2.4.1-linux-x86_64/bowtie2 -x H37Rv.index -1 /home/monica/mapeos/16-19B_R1_PE3_fastq.gz -2 /home/monica/mapeos/16-19B_R2_PE3_fastq.gz -S 1050_alignment.sam -p 12
+
+ ~software/bowtie2-2.4.1-linux-x86_64/bowtie2 -x H37Rv.index -1 /home/monica/mapeos/16-19B_R1_PE3_fastq.gz -2 /home/monica/mapeos/16-19B_R2_PE3_fastq.gz -S 1050_alignment.sam -p 12
+1777975 reads; of these:
+  1777975 (100.00%) were paired; of these:
+    435372 (24.49%) aligned concordantly 0 times
+    1319088 (74.19%) aligned concordantly exactly 1 time
+    23515 (1.32%) aligned concordantly >1 times
+    ----
+    435372 pairs aligned concordantly 0 times; of these:
+      400671 (92.03%) aligned discordantly 1 time
+    ----
+    34701 pairs aligned 0 times concordantly or discordantly; of these:
+      69402 mates make up the pairs; of these:
+        24887 (35.86%) aligned 0 times
+        25071 (36.12%) aligned exactly 1 time
+        19444 (28.02%) aligned >1 times
+99.30% overall alignment rate
+monica@thor:~/mapeos$ ~software/bowtie2-2.4.1-linux-x86_64/bowtie2 -x H37Rv.index -1 /home/monica/mapeos/16-42A_R1_PE2_fastq.gz -2 /home/monica/mapeos/16-42A_R2_PE2_fastq.gz -S 1050_alignment.sam -p 12
+1871958 reads; of these:
+  1871958 (100.00%) were paired; of these:
+    440872 (23.55%) aligned concordantly 0 times
+    1401819 (74.89%) aligned concordantly exactly 1 time
+    29267 (1.56%) aligned concordantly >1 times
+    ----
+    440872 pairs aligned concordantly 0 times; of these:
+      404888 (91.84%) aligned discordantly 1 time
+    ----
+    35984 pairs aligned 0 times concordantly or discordantly; of these:
+      71968 mates make up the pairs; of these:
+        24163 (33.57%) aligned 0 times
+        22096 (30.70%) aligned exactly 1 time
+        25709 (35.72%) aligned >1 times
+99.35% overall alignment rate
+
+
+
+ALINEAMIENTOS CON MAPEOS MUTANTES
+MUTANTE  16-19B
+monica@thor:~/Mapeos_Mutantes$ ~software/bowtie2-2.4.1-linux-x86_64/bowtie2 -x H37Rv.index -1 /home/monica/Mapeos_Mutantes/16-19B_R1_PE3_fastq.gz -2 /home/monica/Mapeos_Mutantes/16-19B_R2_PE3_fastq.gz -S 16-19B.sam -p 12
+1777975 reads; of these:
+  1777975 (100.00%) were paired; of these:
+    435372 (24.49%) aligned concordantly 0 times
+    1319088 (74.19%) aligned concordantly exactly 1 time
+    23515 (1.32%) aligned concordantly >1 times
+    ----
+    435372 pairs aligned concordantly 0 times; of these:
+      400671 (92.03%) aligned discordantly 1 time
+    ----
+    34701 pairs aligned 0 times concordantly or discordantly; of these:
+      69402 mates make up the pairs; of these:
+        24887 (35.86%) aligned 0 times
+        25071 (36.12%) aligned exactly 1 time
+        19444 (28.02%) aligned >1 times
+99.30% overall alignment rate
+
+
+CONVERTIR A FORMATO BAM
+monica@thor:~/Mapeos_Mutantes$ samtools view -bS -@ 12 16-19B.sam > 16-19B.bam
+
+MUTANTE 16-42A
+monica@thor:~/Mapeos_Mutantes$ ~software/bowtie2-2.4.1-linux-x86_64/bowtie2 -x H37Rv.index -1 /home/monica/Mapeos_Mutantes/16-42A_R1_PE2_fastq.gz -2 /home/monica/Mapeos_Mutantes/16-42A_R2_PE2_fastq.gz -S 16-42A.sam -p 12
+1871958 reads; of these:
+  1871958 (100.00%) were paired; of these:
+    440872 (23.55%) aligned concordantly 0 times
+    1401819 (74.89%) aligned concordantly exactly 1 time
+    29267 (1.56%) aligned concordantly >1 times
+    ----
+    440872 pairs aligned concordantly 0 times; of these:
+      404888 (91.84%) aligned discordantly 1 time
+    ----
+    35984 pairs aligned 0 times concordantly or discordantly; of these:
+      71968 mates make up the pairs; of these:
+        24163 (33.57%) aligned 0 times
+        22096 (30.70%) aligned exactly 1 time
+        25709 (35.72%) aligned >1 times
+99.35% overall alignment rate
+
+CONVERTIR A FORMATO BAM
+
+monica@thor:~/Mapeos_Mutantes$ samtools view -bS -@ 12 16-42A.sam > 16-42A.bam
